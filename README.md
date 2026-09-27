@@ -1,0 +1,1 @@
+# Trip Organizer (React/TypeScript/RTK)
