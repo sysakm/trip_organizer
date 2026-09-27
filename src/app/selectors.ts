@@ -8,7 +8,10 @@ export const nextIdSelector = (state: RootState): number => {
     }
 }
 
-export const tripCreationFormStateSelector = (state: RootState) => (state.tripCreationForm)
+export const tripsSelector = (state: RootState) => state.trips.trips
+
+export const tripCreationFormStateSelector = (state: RootState) => state.tripCreationForm
+export const tripSelectionFormStateSelector = (state: RootState) => state.tripSelectionForm
 
 export const areOverlappingSelector = (_state: RootState): boolean => {
     // TODO: for status bar

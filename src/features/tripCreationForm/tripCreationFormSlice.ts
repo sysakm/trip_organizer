@@ -10,7 +10,7 @@ const initialState: TripCreationFormState = {
     name: '', startDate: '', endDate: ''
 }
 
-const tripsCreationFormSlice = createSlice({
+const tripCreationFormSlice = createSlice({
     name: 'tripCreationForm',
     initialState,
     reducers: {
@@ -32,5 +32,5 @@ const tripsCreationFormSlice = createSlice({
     }
 })
 
-export const {setName, setStartDate, setEndDate} = tripsCreationFormSlice.actions
-export default tripsCreationFormSlice.reducer
+export const {setName, setStartDate, setEndDate} = tripCreationFormSlice.actions
+export default tripCreationFormSlice.reducer
