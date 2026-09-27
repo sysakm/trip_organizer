@@ -4,6 +4,7 @@ import HomePage from "@/pages/HomePage.tsx"
 import TripBrowserPage from "@/pages/TripBrowserPage.tsx"
 import RouterError from "@/pages/RouterError.tsx"
 import RouterLoader from "@/pages/RouterLoader.tsx"
+import TripCreationPage from "@/pages/TripCreationPage.tsx"
 
 export const router = createBrowserRouter([
     {
@@ -13,6 +14,11 @@ export const router = createBrowserRouter([
             {
                 index: true,
                 Component: HomePage,
+                HydrateFallback: RouterLoader
+            },
+            {
+                path: 'create',
+                Component: TripCreationPage,
                 HydrateFallback: RouterLoader
             },
             {
