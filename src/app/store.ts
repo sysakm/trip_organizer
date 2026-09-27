@@ -1,7 +1,7 @@
 import tripsReducer from "@/features/trips/tripsSlice.ts"
 import tripCreationFormReducer from "@/features/tripCreationForm/tripCreationFormSlice.ts"
 import tripSelectionFormReducer from "@/features/tripSelectionForm/tripSelectionFormSlice.ts"
-import {configureStore} from "@reduxjs/toolkit/react"
+import {configureStore} from "@reduxjs/toolkit"
 import {logger} from "redux-logger"
 
 export const store = configureStore({
@@ -12,7 +12,7 @@ export const store = configureStore({
     },
     middleware: (getDefaultMiddleware) => {
         const middleware = getDefaultMiddleware()
-        if (process.env.NODE_ENV === 'development') {
+        if (import.meta.env.MODE === 'development') {
             middleware.push(logger)
         }
         return middleware
