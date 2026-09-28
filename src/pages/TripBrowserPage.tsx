@@ -1,6 +1,6 @@
 import {tripsSelector} from "@/app/selectors.ts"
 import {useAppDispatch, useAppSelector} from "@/app/hooks.ts"
-import {addTrip, removeTrip} from "@/features/trips/tripsSlice.ts"
+import {removeTrip, updateTrip} from "@/features/trips/tripsSlice.ts"
 import {useState} from "react"
 import TripEditorForm from "@/components/TripEditorForm.tsx";
 import {createTripUtil} from "@/utils/tripUtils.ts";
@@ -45,11 +45,11 @@ function TripBrowserPage() {
                                     <ActivityDisplay trip={trip}/>
                                     {isEditing ? <>
                                         <TripEditorForm
+                                            key={trip.id}
                                             trip={trip}
                                             submitAction={
                                                 (id: number, name: string, startDate: string, endDate: string) => {
-                                                    dispatch(removeTrip(id))
-                                                    dispatch(addTrip(createTripUtil(id, name, startDate, endDate)))
+                                                    dispatch(updateTrip(createTripUtil(id, name, startDate, endDate)))
                                                     setIsEditing(false)
                                                 }
                                             }

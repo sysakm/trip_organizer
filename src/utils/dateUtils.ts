@@ -5,12 +5,18 @@ export function createDateIntervalUtil(startDate: string, endDate: string): Arra
     const dates: Array<string> = []
     while (curDate <= end) {
         dates.push((new Date(curDate)).toISOString().slice(0, 10))
-        curDate.setDate(curDate.getDate() + 1)
+        curDate.setUTCDate(curDate.getUTCDate() + 1)
     }
     return dates
 }
 
 export function formatDateUtil(date: string) {
     const dateObj = new Date(date)
-    return `${dateObj.toDateString()}`
+    return dateObj.toLocaleDateString(undefined, {
+        timeZone: 'UTC',
+        weekday: 'short',
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric'
+    })
 }
