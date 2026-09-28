@@ -17,6 +17,12 @@ const activitiesSlice = createSlice({
         addActivity(state, action: PayloadAction<TripActivity>) {
             state.activities.push(action.payload)
         },
+        updateActivity(state, action: PayloadAction<TripActivity>) {
+            const idx = state.activities.findIndex(act => act.id === action.payload.id)
+            if (idx !== -1) {
+                state.activities[idx] = action.payload
+            }
+        },
         removeActivity(state, action: PayloadAction<number>) {
             state.activities = state.activities.filter(activity => activity.id !== action.payload)
         }
@@ -34,5 +40,5 @@ const activitiesSlice = createSlice({
     }
 })
 
-export const {addActivity, removeActivity} = activitiesSlice.actions
+export const {addActivity, updateActivity, removeActivity} = activitiesSlice.actions
 export default activitiesSlice.reducer

@@ -15,26 +15,31 @@ function ActivityDisplay(props: Props) {
         activities.filter(activity => activity.tripId === props.trip.id)
     )
     const dateList = createDateIntervalUtil(props.trip.startDate, props.trip.endDate)
-    const activitesWithoutDate = activities.filter(act => !act.date || !dateList.includes(act.date))
+    const activitiesWithoutDate = activities.filter(act => !act.date || !dateList.includes(act.date))
 
     return (
-        <div>
-            {activitesWithoutDate.length > 0 && <div>
-                <div>Unspecified Date</div>
+        <div style={{
+            display: 'grid',
+            gridTemplateRows: `repeat(${dateList.length + +(activitiesWithoutDate.length > 0)}, 1fr)`,
+            gridTemplateColumns: '1fr 1fr',
+            gridAutoFlow: 'column'
+        }}>
+            {activitiesWithoutDate.length > 0 && <div>Unspecified Date</div>}
+            {dateList.map((date) => (
+                    <div key={date}>{formatDateUtil(date)}</div>
+            ))}
+            {activitiesWithoutDate.length > 0 &&
                 <div>
-                    {activitesWithoutDate.map(act => (
-                        <ActivityCard key={act.id} activity={act}/>
+                    {activitiesWithoutDate.map(act => (
+                        <ActivityCard key={act.id} allowPrevDate={false} allowNextDate={false} activity={act}/>
                     ))}
                 </div>
-            </div>}
-            {dateList.map(date => (
-                <div key={date}>
-                    <div>{formatDateUtil(date)}</div>
-                    <div>
-                        {activities.filter(act => act.date === date).map(act => (
-                            <ActivityCard key={act.id} activity={act}/>
-                        ))}
-                    </div>
+            }
+            {dateList.map((date, index) => (
+                <div key={`activity-card-list-${date}`}>
+                    {activities.filter(act => act.date === date).map(act => (
+                        <ActivityCard key={act.id} allowPrevDate={index>0} allowNextDate={index<dateList.length-1} activity={act}/>
+                    ))}
                 </div>
             ))}
         </div>

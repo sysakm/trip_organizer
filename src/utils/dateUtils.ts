@@ -10,6 +10,12 @@ export function createDateIntervalUtil(startDate: string, endDate: string): Arra
     return dates
 }
 
+export function adjustDateUtil(date: string, step: number) {
+    const dateObj = new Date(date)
+    dateObj.setUTCDate(dateObj.getUTCDate() + step)
+    return (new Date(dateObj)).toISOString().slice(0, 10)
+}
+
 export function formatDateUtil(date: string) {
     const dateObj = new Date(date)
     return dateObj.toLocaleDateString(undefined, {
