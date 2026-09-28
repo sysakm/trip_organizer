@@ -1,11 +1,11 @@
-import {tripSelectionFormStateSelector, tripsSelector} from "@/app/selectors.ts";
-import {useAppDispatch, useAppSelector} from "@/app/hooks.ts";
-import {setSelected} from "@/features/tripSelectionForm/tripSelectionFormSlice.ts";
-import {removeTrip} from "@/features/trips/tripsSlice.ts";
+import {tripsSelector} from "@/app/selectors.ts"
+import {useAppDispatch, useAppSelector} from "@/app/hooks.ts"
+import {removeTrip} from "@/features/trips/tripsSlice.ts"
+import {useState} from "react"
 
 function TripBrowserPage() {
+    const [selected, setSelected] = useState('')
     const dispatch = useAppDispatch()
-    const {selected} = useAppSelector(tripSelectionFormStateSelector)
     const trips = useAppSelector(tripsSelector)
 
     const isTripSelected = selected !== ''
@@ -16,13 +16,13 @@ function TripBrowserPage() {
             <h1>Browse your trips:</h1>
             <label htmlFor='trip-select'>Choose the trip</label>
             <select id='trip-select' value={selected}
-                    onChange={(e) => dispatch(setSelected(e.target.value))}>
+                    onChange={(e) => setSelected(e.target.value)}>
                 <option disabled={true} value={''}>
                     Choose the trip
                 </option>
                 {trips.map(trip => (
                     <option key={`dog-option-${trip.id}`} value={trip.id.toString()}>
-                        {trip.name}: {trip.startDate}-{trip.endDate}
+                        {trip.name}: {trip.startDate} - {trip.endDate}
                     </option>
                 ))}
             </select>
@@ -35,7 +35,11 @@ function TripBrowserPage() {
                                 <>
                                     <aside>{trip.id}</aside>
                                     <h3>{trip.name}: {trip.startDate}-{trip.endDate}</h3>
-                                    <button type='button' onClick={() => dispatch(removeTrip(trip.id))}>
+                                    <button type='button'
+                                            onClick={() => {
+                                                dispatch(removeTrip(trip.id))
+                                                setSelected('')
+                                            }}>
                                         Delete this trip
                                     </button>
                                 </>

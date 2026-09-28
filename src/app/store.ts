@@ -1,14 +1,10 @@
 import tripsReducer from "@/features/trips/tripsSlice.ts"
-import tripCreationFormReducer from "@/features/tripCreationForm/tripCreationFormSlice.ts"
-import tripSelectionFormReducer from "@/features/tripSelectionForm/tripSelectionFormSlice.ts"
 import {configureStore} from "@reduxjs/toolkit"
 import {logger} from "redux-logger"
 
 export const store = configureStore({
     reducer: {
-        trips: tripsReducer,
-        tripCreationForm: tripCreationFormReducer,
-        tripSelectionForm: tripSelectionFormReducer
+        trips: tripsReducer
     },
     middleware: (getDefaultMiddleware) => {
         const middleware = getDefaultMiddleware()
