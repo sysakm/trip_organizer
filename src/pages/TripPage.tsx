@@ -1,4 +1,4 @@
-import ActivityDisplay from "@/components/ActivityDisplay.tsx"
+import TripTimeline from "@/components/TripTimeline.tsx"
 import TripEditorForm from "@/components/TripEditorForm.tsx"
 import {removeTrip, updateTrip} from "@/features/trips/tripsSlice.ts"
 import {createTripUtil} from "@/utils/tripUtils.ts"
@@ -7,6 +7,7 @@ import {Link, useParams} from "react-router-dom"
 import {tripsSelector} from "@/app/selectors.ts"
 import {useAppDispatch, useAppSelector} from "@/app/hooks.ts"
 import {useState} from "react"
+import LocationAdditionForm from "@/components/LocationAdditionForm.tsx";
 
 function TripPage() {
     const params = useParams()
@@ -24,7 +25,7 @@ function TripPage() {
                             <Link to='/browse'>Back To Browsing</Link>
                             <aside>{trip.id}</aside>
                             <h3>{trip.name}: {trip.startDate}-{trip.endDate}</h3>
-                            <ActivityDisplay trip={trip}/>
+                            <TripTimeline trip={trip}/>
                             {isEditing ? <>
                                 <TripEditorForm
                                     key={trip.id}
@@ -47,6 +48,7 @@ function TripPage() {
                                     }}>
                                 Delete this trip
                             </button>
+                            <LocationAdditionForm trip={trip}/>
                             <ActivityAdditionForm trip={trip}/>
                         </>
                     ) : (

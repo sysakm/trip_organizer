@@ -1,4 +1,4 @@
-import type {Trip, TripActivity} from "@/types/tripTypes.ts"
+import type {Trip, TripActivity, TripLocation} from "@/types/tripTypes.ts"
 
 export function createTripUtil(id: number, name: string, startDate: string, endDate: string): Trip {
     return {
@@ -8,6 +8,10 @@ export function createTripUtil(id: number, name: string, startDate: string, endD
 
 export function createActivityUtil(id: number, tripId: number, name: string, date: string, time?: string): TripActivity {
     return time ? {id, tripId, name, date, time} : {id, tripId, name, date}
+}
+
+export function createLocationUtil(id: number, tripId: number, name: string, startDate: string, endDate: string): TripLocation {
+    return {id, tripId, name, startDate, endDate}
 }
 
 export function sortActivitiesByTimeUtil(activities: Array<TripActivity>) {
