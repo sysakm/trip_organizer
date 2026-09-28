@@ -1,8 +1,8 @@
 import type {TripActivity} from "@/types/tripTypes.ts"
 import {useAppDispatch} from "@/app/hooks.ts"
 import {removeActivity, updateActivity} from "@/features/activities/activitiesSlice.ts"
-import {createActivityUtil} from "@/utils/tripUtils.ts";
-import {adjustDateUtil} from "@/utils/dateUtils.ts";
+import {createActivityUtil} from "@/utils/tripUtils.ts"
+import {adjustDateUtil} from "@/utils/dateUtils.ts"
 
 type Props = {
     activity: TripActivity;

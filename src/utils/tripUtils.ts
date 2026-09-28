@@ -1,4 +1,4 @@
-import type {Trip, TripActivity} from "@/types/tripTypes.ts";
+import type {Trip, TripActivity} from "@/types/tripTypes.ts"
 
 export function createTripUtil(id: number, name: string, startDate: string, endDate: string): Trip {
     return {

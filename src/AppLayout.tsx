@@ -5,6 +5,7 @@ function AppLayout() {
         <div>
             <header>
                 status bar...
+                <Link to='/'>Home</Link>
                 <Link to='/create'>Create new trip</Link>
                 <Link to='/browse'>Browse trips</Link>
             </header>

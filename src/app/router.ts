@@ -5,6 +5,7 @@ import TripBrowserPage from "@/pages/TripBrowserPage.tsx"
 import RouterError from "@/pages/RouterError.tsx"
 import RouterLoader from "@/pages/RouterLoader.tsx"
 import TripCreationPage from "@/pages/TripCreationPage.tsx"
+import TripPage from "@/pages/TripPage.tsx"
 
 export const router = createBrowserRouter([
     {
@@ -28,6 +29,11 @@ export const router = createBrowserRouter([
                 loader: async () => {
                     await new Promise(resolve => setTimeout(resolve, 500))
                 }
+            },
+            {
+                path: 'browse/:id',
+                Component: TripPage,
+                HydrateFallback: RouterLoader
             }
         ]
     }

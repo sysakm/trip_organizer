@@ -1,16 +1,10 @@
 import {tripsSelector} from "@/app/selectors.ts"
-import {useAppDispatch, useAppSelector} from "@/app/hooks.ts"
-import {removeTrip, updateTrip} from "@/features/trips/tripsSlice.ts"
+import {useAppSelector} from "@/app/hooks.ts"
 import {useState} from "react"
-import TripEditorForm from "@/components/TripEditorForm.tsx";
-import {createTripUtil} from "@/utils/tripUtils.ts";
-import ActivityAdditionForm from "@/components/ActivityAdditionForm.tsx";
-import ActivityDisplay from "@/components/ActivityDisplay.tsx";
+import { Link } from "react-router-dom"
 
 function TripBrowserPage() {
     const [selected, setSelected] = useState('')
-    const [isEditing, setIsEditing] = useState(false)
-    const dispatch = useAppDispatch()
     const trips = useAppSelector(tripsSelector)
 
     const isTripSelected = selected !== ''
@@ -40,33 +34,9 @@ function TripBrowserPage() {
                             trip ?
                             (
                                 <>
+                                    <Link to={`/browse/${trip.id}`}>Open Full Trip Page</Link>
                                     <aside>{trip.id}</aside>
                                     <h3>{trip.name}: {trip.startDate}-{trip.endDate}</h3>
-                                    <ActivityDisplay trip={trip}/>
-                                    {isEditing ? <>
-                                        <TripEditorForm
-                                            key={trip.id}
-                                            trip={trip}
-                                            submitAction={
-                                                (id: number, name: string, startDate: string, endDate: string) => {
-                                                    dispatch(updateTrip(createTripUtil(id, name, startDate, endDate)))
-                                                    setIsEditing(false)
-                                                }
-                                            }
-                                        />
-                                        <button type='button' onClick={() => setIsEditing(false)}>Leave without editing</button>
-                                    </> : <button type='button' onClick={() => setIsEditing(true)}>
-                                        Edit this trip
-                                    </button>}
-                                    <button type='button'
-                                            onClick={() => {
-                                                dispatch(removeTrip(trip.id))
-                                                setSelected('')
-                                                setIsEditing(false)
-                                            }}>
-                                        Delete this trip
-                                    </button>
-                                    <ActivityAdditionForm trip={trip}/>
                                 </>
                             ) : (
                                 <p>Something went wrong - no such trip in store</p>
