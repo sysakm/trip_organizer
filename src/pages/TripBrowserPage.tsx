@@ -4,6 +4,8 @@ import {addTrip, removeTrip} from "@/features/trips/tripsSlice.ts"
 import {useState} from "react"
 import TripEditorForm from "@/components/TripEditorForm.tsx";
 import {createTripUtil} from "@/utils/tripUtils.ts";
+import ActivityAdditionForm from "@/components/ActivityAdditionForm.tsx";
+import ActivityDisplay from "@/components/ActivityDisplay.tsx";
 
 function TripBrowserPage() {
     const [selected, setSelected] = useState('')
@@ -26,7 +28,7 @@ function TripBrowserPage() {
                     Choose the trip
                 </option>
                 {trips.map(trip => (
-                    <option key={`dog-option-${trip.id}`} value={trip.id.toString()}>
+                    <option key={`trip-option-${trip.id}`} value={trip.id.toString()}>
                         {trip.name}: {trip.startDate} - {trip.endDate}
                     </option>
                 ))}
@@ -40,15 +42,20 @@ function TripBrowserPage() {
                                 <>
                                     <aside>{trip.id}</aside>
                                     <h3>{trip.name}: {trip.startDate}-{trip.endDate}</h3>
-                                    {isEditing ? <TripEditorForm trip={trip}
-                                        submitAction={
-                                            (id: number, name: string, startDate: string, endDate: string) => {
-                                                dispatch(removeTrip(id))
-                                                dispatch(addTrip(createTripUtil(id, name, startDate, endDate)))
-                                                setIsEditing(false)
+                                    <ActivityDisplay trip={trip}/>
+                                    {isEditing ? <>
+                                        <TripEditorForm
+                                            trip={trip}
+                                            submitAction={
+                                                (id: number, name: string, startDate: string, endDate: string) => {
+                                                    dispatch(removeTrip(id))
+                                                    dispatch(addTrip(createTripUtil(id, name, startDate, endDate)))
+                                                    setIsEditing(false)
+                                                }
                                             }
-                                        }
-                                    /> : <button type='button' onClick={() => setIsEditing(true)}>
+                                        />
+                                        <button type='button' onClick={() => setIsEditing(false)}>Leave without editing</button>
+                                    </> : <button type='button' onClick={() => setIsEditing(true)}>
                                         Edit this trip
                                     </button>}
                                     <button type='button'
@@ -59,6 +66,7 @@ function TripBrowserPage() {
                                             }}>
                                         Delete this trip
                                     </button>
+                                    <ActivityAdditionForm trip={trip}/>
                                 </>
                             ) : (
                                 <p>Something went wrong - no such trip in store</p>

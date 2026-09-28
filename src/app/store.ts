@@ -1,10 +1,12 @@
 import tripsReducer from "@/features/trips/tripsSlice.ts"
+import activitiesReducer from "@/features/activities/activitiesSlice.ts"
 import {configureStore} from "@reduxjs/toolkit"
 import {logger} from "redux-logger"
 
 export const store = configureStore({
     reducer: {
-        trips: tripsReducer
+        trips: tripsReducer,
+        activities: activitiesReducer
     },
     middleware: (getDefaultMiddleware) => {
         const middleware = getDefaultMiddleware()

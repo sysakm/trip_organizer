@@ -2,7 +2,7 @@ import {type SubmitEvent, useState} from "react"
 import {useAppSelector} from "@/app/hooks.ts"
 import {nextIdSelector} from "@/app/selectors.ts"
 import DateInputField from "@/components/DateInputField"
-import type {Trip} from "@/types/tripTypes.ts";
+import type {Trip} from "@/types/tripTypes.ts"
 
 type Props = {
     submitAction: (id: number, name: string, startDate: string, endDate: string) => void;

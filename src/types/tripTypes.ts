@@ -1,6 +1,8 @@
 export type TripActivity = {
+    id: number;
+    tripId: number;
     date: string;
-    localTime?: string;
+    time?: string;
     name: string;
 }
 
@@ -9,5 +11,4 @@ export type Trip = {
     startDate: string;
     endDate: string;
     name: string;
-    activities: Array<TripActivity>;
 }

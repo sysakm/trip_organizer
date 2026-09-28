@@ -1,4 +1,4 @@
-import type {RootState} from "@/app/store.ts";
+import type {RootState} from "@/app/store.ts"
 
 export const nextIdSelector = (state: RootState): number => {
     if (state.trips.trips.length) {
@@ -8,7 +8,18 @@ export const nextIdSelector = (state: RootState): number => {
     }
 }
 
+export const nextActivityIdSelector = (state: RootState): number => {
+    if (state.activities.activities.length) {
+        return 1 + Math.max(...state.activities.activities.map(activity => activity.id))
+    } else {
+        return 1
+    }
+}
+
 export const tripsSelector = (state: RootState) => state.trips.trips
+
+export const activitiesSelector = (state: RootState) => state.activities.activities
+
 
 export const areOverlappingSelector = (_state: RootState): boolean => {
     // TODO: for status bar
