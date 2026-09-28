@@ -50,7 +50,12 @@ function LocationAdditionForm(props: Props) {
                 <select id='start-date-select'
                         disabled={dateList.length === 0}
                         value={startDate}
-                        onChange={(e) => setStartDate(e.target.value)}>
+                        onChange={(e) => {
+                            if (endDate && endDate.localeCompare(e.target.value) < 0) {
+                                setEndDate(e.target.value)
+                            }
+                            setStartDate(e.target.value)
+                        }}>
                     <option disabled={true} value={''}>
                         Choose the date
                     </option>

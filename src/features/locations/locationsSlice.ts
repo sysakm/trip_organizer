@@ -1,7 +1,7 @@
-import type {TripLocation} from "@/types/tripTypes.ts"
+import type {Trip, TripLocation} from "@/types/tripTypes.ts"
 import {createSlice, type PayloadAction} from "@reduxjs/toolkit"
-import {clearTrips, removeTrip} from "@/features/trips/tripsSlice.ts"
-import {overwriteDateRangeUtil} from "@/utils/dateUtils.ts"
+import {clearTrips, removeTrip, updateTrip} from "@/features/trips/tripsSlice.ts"
+import {changeOuterDateRangeUtil, overwriteDateRangeUtil} from "@/utils/dateUtils.ts"
 
 type LocationsState = {
     locations: Array<TripLocation>
@@ -68,6 +68,31 @@ const locationsSlice = createSlice({
         ).addCase(
             clearTrips,
             () => {return initialState}
+        ).addCase(
+            updateTrip,
+            (state, action: PayloadAction<Trip>) => {
+                const newTrip = action.payload
+                const newLocationList: Array<TripLocation> = []
+
+                for (let i = 0; i < state.locations.length; i++) {
+                    const location = state.locations[i]
+                    if (location.tripId !== newTrip.id) {
+                        newLocationList.push(location)
+                    } else {
+                        const newLocationObj = changeOuterDateRangeUtil(
+                            location.startDate, location.endDate, newTrip.startDate, newTrip.endDate
+                        )
+                        if (newLocationObj.type === 'ok') {
+                            newLocationList.push(location)
+                        } else if (newLocationObj.type === 'adjust') {
+                            newLocationList.push({
+                                ...location, startDate: newLocationObj.updated[0], endDate: newLocationObj.updated[1]
+                            })
+                        }
+                    }
+                }
+                state.locations = newLocationList
+            }
         )
     }
 })

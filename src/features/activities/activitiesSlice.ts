@@ -1,6 +1,6 @@
-import type {TripActivity} from "@/types/tripTypes.ts"
+import type {Trip, TripActivity} from "@/types/tripTypes.ts"
 import {createSlice, type PayloadAction} from "@reduxjs/toolkit"
-import {clearTrips, removeTrip} from "@/features/trips/tripsSlice.ts"
+import {clearTrips, updateTrip, removeTrip} from "@/features/trips/tripsSlice.ts"
 
 type ActivitiesState = {
     activities: Array<TripActivity>;
@@ -36,6 +36,22 @@ const activitiesSlice = createSlice({
         ).addCase(
             clearTrips,
             () => {return initialState}
+        ).addCase(
+            updateTrip,
+            (state, action: PayloadAction<Trip>) => {
+                state.activities = state.activities.map((activity): TripActivity => {
+                    if (activity.tripId === action.payload.id && (
+                        activity.date.localeCompare(action.payload.startDate) < 0 ||
+                        activity.date.localeCompare(action.payload.endDate) > 0
+                    )) {
+                        return {
+                            ...activity,
+                            date: ''
+                        }
+                    }
+                    return activity
+                })
+            }
         )
     }
 })

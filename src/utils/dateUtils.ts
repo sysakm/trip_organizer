@@ -46,6 +46,30 @@ export function overwriteDateRangeUtil(
     return {type: 'adjust', updated: [adjustDateUtil(newEndDate, 1), oldEndDate]}
 }
 
+export function changeOuterDateRangeUtil(
+    oldStartDate: string, oldEndDate: string, newStartDate: string, newEndDate: string
+): OverwriteDateRangeResult {
+    if (oldEndDate.localeCompare(newStartDate) < 0 || oldStartDate.localeCompare(newEndDate) > 0) {
+        return {type: 'remove'}
+    }
+    if (oldStartDate.localeCompare(newStartDate) >= 0 && oldEndDate.localeCompare(newEndDate) <= 0) {
+        return {type: 'ok'}
+    }
+    if (oldStartDate.localeCompare(newStartDate) < 0 && oldEndDate.localeCompare(newEndDate) > 0) {
+        return {
+            type: 'adjust',
+            updated: [newStartDate, newEndDate],
+        }
+    }
+    if (oldStartDate.localeCompare(newStartDate) < 0) {
+        return {
+            type: 'adjust',
+            updated: [newStartDate, oldEndDate]
+        }
+    }
+    return {type: 'adjust', updated: [oldStartDate, newEndDate]}
+}
+
 export function formatDateUtil(date: string) {
     const dateObj = new Date(date)
     return dateObj.toLocaleDateString(undefined, {
