@@ -5,7 +5,7 @@ import DateInputField from "@/components/DateInputField"
 import type {Trip} from "@/types/tripTypes.ts"
 
 type Props = {
-    submitAction: (id: number, name: string, startDate: string, endDate: string) => void;
+    submitAction: (id: number, name: string, startDate: string, endDate: string, budget: number) => void;
     trip?: Trip;
 }
 
@@ -13,15 +13,17 @@ function TripEditorForm(props: Props) {
     const [name, setName] = useState(props.trip?.name ?? '')
     const [startDate, setStartDate] = useState(props.trip?.startDate ?? '')
     const [endDate, setEndDate] = useState(props.trip?.endDate ?? '')
+    const [budget, setBudget] = useState(props.trip?.budget ?? 1000)
 
     const newId = useAppSelector(nextIdSelector)
 
     function handleSubmit(e: SubmitEvent<HTMLFormElement>) {
         e.preventDefault()
-        props.submitAction(props.trip?.id ?? newId, name, startDate, endDate)
+        props.submitAction(props.trip?.id ?? newId, name, startDate, endDate, budget)
         setName('')
         setStartDate('')
         setEndDate('')
+        setBudget(1000)
     }
 
     return (
@@ -37,6 +39,13 @@ function TripEditorForm(props: Props) {
                             onChange={setStartDate}/>
             <DateInputField label='End date' id='endDate' value={endDate}
                             onChange={setEndDate}/>
+            <label htmlFor="budget">
+                Budget ($)
+                <input
+                    type="number" value={budget} min='100' step='100' id='budget'
+                    onChange={(e) => setBudget(Number(e.target.value))}
+                />
+            </label>
             <button type='submit'>{props.trip ? 'Update trip' : 'Add trip'}</button>
         </form>
     )

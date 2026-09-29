@@ -1,13 +1,13 @@
-import {Link, Outlet} from "react-router-dom"
+import {NavLink, Outlet} from "react-router-dom"
 
 function AppLayout() {
     return (
         <div>
             <header>
                 status bar...
-                <Link to='/'>Home</Link>
-                <Link to='/create'>Create new trip</Link>
-                <Link to='/browse'>Browse trips</Link>
+                <NavLink to='/'>Home</NavLink>
+                <NavLink to='/create'>Create new trip</NavLink>
+                <NavLink to='/browse'>Browse trips</NavLink>
             </header>
             <main>
                 <Outlet/>

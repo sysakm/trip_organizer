@@ -1,8 +1,8 @@
 import type {Trip, TripActivity, TripLocation} from "@/types/tripTypes.ts"
 
-export function createTripUtil(id: number, name: string, startDate: string, endDate: string): Trip {
+export function createTripUtil(id: number, name: string, startDate: string, endDate: string, budget: number): Trip {
     return {
-        id, name, startDate, endDate
+        id, name, startDate, endDate, budget
     }
 }
 

@@ -10,8 +10,8 @@ function TripCreationPage() {
         <>
             <h1>Create New Trip:</h1>
             <TripEditorForm submitAction={
-                (id: number, name: string, startDate: string, endDate: string) => {
-                    dispatch(addTrip(createTripUtil(id, name, startDate, endDate)))
+                (id: number, name: string, startDate: string, endDate: string, budget: number) => {
+                    dispatch(addTrip(createTripUtil(id, name, startDate, endDate, budget)))
                 }
             }/>
         </>

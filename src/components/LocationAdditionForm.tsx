@@ -4,7 +4,7 @@ import type {Trip} from "@/types/tripTypes.ts"
 import {createLocationUtil} from "@/utils/tripUtils.ts"
 import {useAppDispatch, useAppSelector} from "@/app/hooks.ts"
 import {nextLocationIdSelector} from "@/app/selectors.ts"
-import {addLocation} from "@/features/locations/locationsSlice.ts";
+import {addLocation} from "@/features/locations/locationsSlice.ts"
 
 type Props = {
     trip: Trip

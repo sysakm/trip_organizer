@@ -21,6 +21,7 @@ type OverwriteDateRangeResult =
     | {type: 'adjust', updated: [string, string]}
     | {type: 'remove'}
     | {type: 'ok'}
+
 export function overwriteDateRangeUtil(
     oldStartDate: string, oldEndDate: string, newStartDate: string, newEndDate: string
 ): OverwriteDateRangeResult {

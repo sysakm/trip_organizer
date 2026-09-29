@@ -14,9 +14,18 @@ export type TripLocation = {
     name: string;
 }
 
+export type TripExpense = {
+    id: number;
+    tripId: number;
+    name: string;
+    price: number;
+    paid: boolean;
+}
+
 export type Trip = {
     id: number;
     startDate: string;
     endDate: string;
     name: string;
+    budget: number;
 }
