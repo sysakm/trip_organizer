@@ -9,14 +9,20 @@ type Props = {
 
 function TripExpensesTable(props: Props) {
     const expenses = useAppSelector(expensesSelector).filter(expense => expense.tripId === props.trip.id)
-    const expectedExpenses = expenses.reduce((total, exp ) => total + exp.price, 0)
-    const realizedExpenses = expenses.reduce((total, exp) => total + exp.paid, 0)
+    const expectedExpenses = expenses.reduce(
+        (total, exp ) =>
+        Number((total + exp.price).toFixed(2)), 0)
+    const realizedExpenses = expenses.reduce(
+        (total, exp) =>
+        Number((total + (exp.paid ?? 0)).toFixed(2)), 0)
 
     return (
         <>
             <p>
-                <span>Expected Total Spendings: ${expectedExpenses}/${props.trip.budget}</span>
-                <span>Total Spent: ${realizedExpenses}/${props.trip.budget}</span>
+                <span style={{color: expectedExpenses > props.trip.budget ? 'AccentColor' : ''}}>
+                    Expected Total Spendings: ${expectedExpenses}/${props.trip.budget}</span>
+                <span style={{color: realizedExpenses > props.trip.budget ? 'AccentColor' : ''}}>
+                    Total Spent: ${realizedExpenses}/${props.trip.budget}</span>
             </p>
             {expenses.length > 0 && <div>
                 <table>
@@ -33,7 +39,7 @@ function TripExpensesTable(props: Props) {
                         <tr key={`expense-${exp.id}`}>
                             <td>{exp.name}</td>
                             <td>${exp.price}</td>
-                            <td>${exp.paid}</td>
+                            <td>${exp.paid ?? 'TBD'}</td>
                             <td>
                                 <ExpenseActionForm expense={exp}/>
                             </td>

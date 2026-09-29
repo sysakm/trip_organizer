@@ -12,14 +12,14 @@ function ExpenseActionForm(props: Props) {
     const [amount, setAmount] = useState(props.expense.price)
     return (
         <>
-            {!props.expense.paid && <input
+            {props.expense.paid === null && <input
                 type='number'
                 value={amount}
                 min={0}
                 step={0.01}
                 onChange={(e) => setAmount(Number(e.target.value))}
             />}
-            {!props.expense.paid && <button
+            {props.expense.paid === null && <button
                 type='button'
                 onClick={() => {
                     dispatch(updateExpense({...props.expense, paid: amount}))

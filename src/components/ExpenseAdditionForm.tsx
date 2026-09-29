@@ -22,7 +22,7 @@ function ExpenseAdditionForm(props: Props) {
 
     function handleSubmit(e: SubmitEvent<HTMLFormElement>) {
         e.preventDefault()
-        dispatch(addExpense({id: nextId, tripId: props.trip.id, name, price, paid: 0}))
+        dispatch(addExpense({id: nextId, tripId: props.trip.id, name, price, paid: null}))
         setName('')
         setPrice(1)
     }
