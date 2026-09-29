@@ -1,7 +1,7 @@
 import type {Trip} from "@/types/tripTypes.ts"
 import {expensesSelector} from "@/app/selectors.ts"
 import {useAppSelector} from "@/app/hooks.ts"
-import ExpenseActionForm from "@/components/ExpenseActionForm.tsx"
+import ExpenseActionBar from "@/components/ExpenseActionBar.tsx"
 
 type Props = {
     trip: Trip
@@ -41,7 +41,7 @@ function TripExpensesTable(props: Props) {
                             <td>${exp.price}</td>
                             <td>${exp.paid ?? 'TBD'}</td>
                             <td>
-                                <ExpenseActionForm expense={exp}/>
+                                <ExpenseActionBar expense={exp}/>
                             </td>
                         </tr>
                     ))}

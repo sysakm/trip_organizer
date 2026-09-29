@@ -8,6 +8,12 @@ type Props = {
     trip: Trip
 }
 
+function validateForm(category: (typeof TripTaskCategories)[number] | '', description: string): string | null {
+    if (!description.trim()) return 'Description can not be empty'
+    if (!category || !TripTaskCategories.includes(category)) return 'Category must be valid'
+    return null
+}
+
 function TaskList(props: Props) {
     const dispatch = useAppDispatch()
     const tasks = useAppSelector(tasksSelector).filter(task => task.tripId === props.trip.id).toSorted(
@@ -17,15 +23,24 @@ function TaskList(props: Props) {
     const [category, setCategory] = useState<(typeof TripTaskCategories)[number] | ''>('')
     const [description, setDescription] = useState('')
 
+    const [error, setError] = useState('')
+
     function handleReset() {
         setCategory('')
         setDescription('')
+        setError('')
     }
     function handleAddTask() {
-        if (category !== '' && description.trim() !== '') {
-            dispatch(addTask({id: nextId, tripId: props.trip.id, category, description, done: false}))
+        const newError = validateForm(category, description)
+        if (newError) {
+            setError(newError)
+        } else if (!category) {
+            setError('Empty category')
+        } else {
+            dispatch(addTask({id: nextId, tripId: props.trip.id, category, description: description.trim(), done: false}))
             setCategory('')
             setDescription('')
+            setError('')
         }
     }
 
@@ -97,10 +112,10 @@ function TaskList(props: Props) {
                         <td>
                             <button
                                 type='button'
-                                disabled={category === '' || description.trim() === ''}
                                 onClick={handleAddTask}
                             >Add Task</button>
                             <button type='button' onClick={handleReset}>Clear Form</button>
+                            {error && (<p style={{color: 'orangered'}}>{error}</p>)}
                         </td>
                     </tr>
                 </tfoot>

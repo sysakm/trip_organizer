@@ -10,10 +10,18 @@ type Props = {
     trip: Trip
 }
 
+function validateForm(name: string, startDate: string, endDate: string): string | null {
+    if (!name.trim()) return 'Name can not be empty'
+    if (!startDate || !endDate || startDate.localeCompare(endDate) > 0) return 'Date range has to be valid'
+    return null
+}
+
 function LocationAdditionForm(props: Props) {
     const [name, setName] = useState('')
     const [startDate, setStartDate] = useState('')
     const [endDate, setEndDate] = useState('')
+
+    const [error, setError] = useState('')
 
     const dispatch = useAppDispatch()
 
@@ -24,16 +32,23 @@ function LocationAdditionForm(props: Props) {
         setName('')
         setStartDate('')
         setEndDate('')
+        setError('')
     }
 
     function handleSubmit(e: SubmitEvent<HTMLFormElement>) {
         e.preventDefault()
-        dispatch(addLocation(
-            createLocationUtil(nextId, props.trip.id, name, startDate, endDate)
-        ))
-        setName('')
-        setStartDate('')
-        setEndDate('')
+        const newError = validateForm(name, startDate, endDate)
+        if (newError) {
+            setError(newError)
+        } else {
+            dispatch(addLocation(
+                createLocationUtil(nextId, props.trip.id, name.trim(), startDate, endDate)
+            ))
+            setName('')
+            setStartDate('')
+            setEndDate('')
+            setError('')
+        }
     }
 
     return (
@@ -84,6 +99,7 @@ function LocationAdditionForm(props: Props) {
             </label>
             <button type='submit'>Add Location</button>
             <button type='button' onClick={handleReset}>Clear Form</button>
+            {error && (<p style={{color: 'orangered'}}>{error}</p>)}
         </form>
     )
 }

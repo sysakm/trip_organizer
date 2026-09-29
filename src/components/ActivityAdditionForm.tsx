@@ -10,11 +10,20 @@ type Props = {
     trip: Trip
 }
 
+function validateForm(name: string, date: string, specifyTime: boolean, time: string): string | null {
+    if (!name.trim()) return 'Name can not be empty'
+    if (!date && specifyTime) return 'Time not allowed for dateless activities'
+    if (specifyTime && !time) return 'Specific time can not be empty'
+    return null
+}
+
 function ActivityAdditionForm(props: Props) {
     const [name, setName] = useState('')
     const [date, setDate] = useState('')
     const [specifyTime, setSpecifyTime] = useState(false)
     const [time, setTime] = useState('')
+
+    const [error, setError] = useState('')
 
     const dispatch = useAppDispatch()
     const newId = useAppSelector(nextActivityIdSelector)
@@ -26,18 +35,24 @@ function ActivityAdditionForm(props: Props) {
         setDate('')
         setSpecifyTime(false)
         setTime('')
+        setError('')
     }
 
     function handleSubmit(e: SubmitEvent<HTMLFormElement>) {
         e.preventDefault()
-        dispatch(addActivity(
-            specifyTime ? createActivityUtil(newId, props.trip.id, name, date, time) :
-                createActivityUtil(newId, props.trip.id, name, date)
-        ))
-        setName('')
-        setDate('')
-        setSpecifyTime(false)
-        setTime('')
+        const newError = validateForm(name, date, specifyTime, time)
+        if (newError) {
+            setError(newError)
+        } else {
+            dispatch(addActivity(
+                specifyTime ? createActivityUtil(newId, props.trip.id, name.trim(), date, time) :
+                    createActivityUtil(newId, props.trip.id, name.trim(), date)
+            ))
+            setName('')
+            setDate('')
+            setSpecifyTime(false)
+            setTime('')
+        }
     }
 
     return (
@@ -55,8 +70,8 @@ function ActivityAdditionForm(props: Props) {
                         disabled={dateList.length === 0}
                         value={date}
                         onChange={(e) => setDate(e.target.value)}>
-                    <option disabled={true} value={''}>
-                        Choose the date
+                    <option value={''}>
+                        No date
                     </option>
                     {dateList.map(date => (
                         <option key={`date-${date}`} value={date}>
@@ -77,6 +92,7 @@ function ActivityAdditionForm(props: Props) {
             )}
             <button type='submit'>Add Activity</button>
             <button type='button' onClick={handleReset}>Clear Form</button>
+            {error && (<p style={{color: 'orangered'}}>{error}</p>)}
         </form>
     )
 }

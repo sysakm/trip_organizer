@@ -7,7 +7,7 @@ type Props = {
     expense: TripExpense;
 }
 
-function ExpenseActionForm(props: Props) {
+function ExpenseActionBar(props: Props) {
     const dispatch = useAppDispatch()
     const [amount, setAmount] = useState(props.expense.price)
     return (
@@ -15,14 +15,14 @@ function ExpenseActionForm(props: Props) {
             {props.expense.paid === null && <input
                 type='number'
                 value={amount}
-                min={0}
-                step={0.01}
+                min='0'
+                step='0.01'
                 onChange={(e) => setAmount(Number(e.target.value))}
             />}
             {props.expense.paid === null && <button
                 type='button'
                 onClick={() => {
-                    dispatch(updateExpense({...props.expense, paid: amount}))
+                    dispatch(updateExpense({...props.expense, paid: Number(amount.toFixed(2))}))
                 }}
             >
                 Complete Expense
@@ -34,4 +34,4 @@ function ExpenseActionForm(props: Props) {
     )
 }
 
-export default ExpenseActionForm
+export default ExpenseActionBar

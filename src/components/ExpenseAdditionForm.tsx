@@ -8,9 +8,17 @@ type Props = {
     trip: Trip
 }
 
+function validateForm(name: string, price: number): string | null {
+    if (!name.trim()) return 'Name can not be empty'
+    if (isNaN(price) || price <= 0) return 'Price must be a valid positive dollar amount'
+    return null
+}
+
 function ExpenseAdditionForm(props: Props) {
     const [name, setName] = useState('')
     const [price, setPrice] = useState(1)
+
+    const [error, setError] = useState('')
 
     const dispatch = useAppDispatch()
     const nextId = useAppSelector(nextExpenseIdSelector)
@@ -18,13 +26,22 @@ function ExpenseAdditionForm(props: Props) {
     function handleReset() {
         setName('')
         setPrice(1)
+        setError('')
     }
 
     function handleSubmit(e: SubmitEvent<HTMLFormElement>) {
         e.preventDefault()
-        dispatch(addExpense({id: nextId, tripId: props.trip.id, name, price, paid: null}))
-        setName('')
-        setPrice(1)
+        const newError = validateForm(name, price)
+        if (newError) {
+            setError(newError)
+        } else {
+            dispatch(addExpense(
+                {id: nextId, tripId: props.trip.id, name: name.trim(), price: Number(price.toFixed(2)), paid: null}
+            ))
+            setName('')
+            setPrice(1)
+            setError('')
+        }
     }
 
     return (
@@ -40,11 +57,14 @@ function ExpenseAdditionForm(props: Props) {
                 Price, $
                 <input
                     type="number" value={price} min='0.01' step='0.01' id='expense-price'
-                    onChange={(e) => setPrice(Number(e.target.value))}
+                    onChange={(e) =>
+                        setPrice(Number(e.target.value))
+                    }
                 />
             </label>
             <button type='submit'>Add Expense</button>
             <button type='button' onClick={handleReset}>Clear Form</button>
+            {error && (<p style={{color: 'orangered'}}>{error}</p>)}
         </form>
     )
 }

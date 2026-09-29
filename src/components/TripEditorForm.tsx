@@ -9,21 +9,36 @@ type Props = {
     trip?: Trip;
 }
 
+function validateForm(name: string, startDate: string, endDate: string, budget: number): string | null {
+    if (!name.trim()) return 'Name can not be empty'
+    if (!startDate || !endDate || startDate.localeCompare(endDate) > 0) return 'Date range has to be valid'
+    if (!Number.isInteger(budget) || budget < 0) return 'Budget must be a positive integer'
+    return null
+}
+
 function TripEditorForm(props: Props) {
     const [name, setName] = useState(props.trip?.name ?? '')
     const [startDate, setStartDate] = useState(props.trip?.startDate ?? '')
     const [endDate, setEndDate] = useState(props.trip?.endDate ?? '')
     const [budget, setBudget] = useState(props.trip?.budget ?? 1000)
 
+    const [error, setError] = useState('')
+
     const newId = useAppSelector(nextIdSelector)
 
     function handleSubmit(e: SubmitEvent<HTMLFormElement>) {
         e.preventDefault()
-        props.submitAction(props.trip?.id ?? newId, name, startDate, endDate, budget)
-        setName('')
-        setStartDate('')
-        setEndDate('')
-        setBudget(1000)
+        const newError = validateForm(name, startDate, endDate, budget)
+        if (newError) {
+            setError(newError)
+        } else {
+            props.submitAction(props.trip?.id ?? newId, name.trim(), startDate, endDate, budget)
+            setName('')
+            setStartDate('')
+            setEndDate('')
+            setBudget(1000)
+            setError('')
+        }
     }
 
     return (
@@ -42,11 +57,12 @@ function TripEditorForm(props: Props) {
             <label htmlFor="budget">
                 Budget ($)
                 <input
-                    type="number" value={budget} min='100' step='100' id='budget'
+                    type="number" value={budget} min='1' step='1' id='budget'
                     onChange={(e) => setBudget(Number(e.target.value))}
                 />
             </label>
             <button type='submit'>{props.trip ? 'Update trip' : 'Add trip'}</button>
+            {error && (<p style={{color: 'orangered'}}>{error}</p>)}
         </form>
     )
 }
