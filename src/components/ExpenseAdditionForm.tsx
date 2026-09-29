@@ -22,7 +22,7 @@ function ExpenseAdditionForm(props: Props) {
 
     function handleSubmit(e: SubmitEvent<HTMLFormElement>) {
         e.preventDefault()
-        dispatch(addExpense({id: nextId, tripId: props.trip.id, name, price, paid: false}))
+        dispatch(addExpense({id: nextId, tripId: props.trip.id, name, price, paid: 0}))
         setName('')
         setPrice(1)
     }
@@ -43,7 +43,7 @@ function ExpenseAdditionForm(props: Props) {
                     onChange={(e) => setPrice(Number(e.target.value))}
                 />
             </label>
-            <button type='submit'>Add Activity</button>
+            <button type='submit'>Add Expense</button>
             <button type='button' onClick={handleReset}>Clear Form</button>
         </form>
     )

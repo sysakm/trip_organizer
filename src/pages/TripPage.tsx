@@ -11,12 +11,17 @@ import LocationAdditionForm from "@/components/LocationAdditionForm.tsx";
 import ExpenseAdditionForm from "@/components/ExpenseAdditionForm.tsx";
 import TripExpensesTable from "@/components/TripExpensesTable.tsx";
 
+const subPageEntries = [
+    'timeline', 'budget'
+] as const
+
 function TripPage() {
     const navigate = useNavigate()
     const params = useParams()
     const dispatch = useAppDispatch()
     const trip = useAppSelector(tripsSelector).find(trip => params.id && trip.id.toString() === params.id)
     const [isEditing, setIsEditing] = useState(false)
+    const [subPage, setSubPage] = useState<(typeof subPageEntries)[number]>('timeline')
 
     return (
         <>
@@ -50,12 +55,19 @@ function TripPage() {
                                     }}>
                                 Delete this trip
                             </button>
-                            {<>
+                            <div>
+                                {subPageEntries.map(entry => (
+                                    <button key={'sub-page'+entry} type='button' disabled={subPage===entry} onClick={() => setSubPage(entry)}>
+                                        {entry}
+                                    </button>
+                                ))}
+                            </div>
+                            {subPage === 'timeline' && <>
                                 <TripTimeline trip={trip}/>
                                 <LocationAdditionForm trip={trip}/>
                                 <ActivityAdditionForm trip={trip}/>
                             </>}
-                            {<>
+                            {subPage === 'budget' && <>
                                 <TripExpensesTable trip={trip}/>
                                 <ExpenseAdditionForm trip={trip}/>
                             </>}

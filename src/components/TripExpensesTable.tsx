@@ -1,17 +1,16 @@
 import type {Trip} from "@/types/tripTypes.ts"
 import {expensesSelector} from "@/app/selectors.ts"
-import {useAppDispatch, useAppSelector} from "@/app/hooks.ts"
-import {removeExpense, updateExpense} from "@/features/expenses/expensesSlice.ts";
+import {useAppSelector} from "@/app/hooks.ts"
+import ExpenseActionForm from "@/components/ExpenseActionForm.tsx"
 
 type Props = {
     trip: Trip
 }
 
 function TripExpensesTable(props: Props) {
-    const dispatch = useAppDispatch()
     const expenses = useAppSelector(expensesSelector).filter(expense => expense.tripId === props.trip.id)
     const expectedExpenses = expenses.reduce((total, exp ) => total + exp.price, 0)
-    const realizedExpenses = expenses.reduce((total, exp) => exp.paid ? total + exp.price : total, 0)
+    const realizedExpenses = expenses.reduce((total, exp) => total + exp.paid, 0)
 
     return (
         <>
@@ -24,27 +23,19 @@ function TripExpensesTable(props: Props) {
                     <thead>
                         <tr>
                             <th>Expense</th>
-                            <th>Price, $</th>
+                            <th>Expected Price</th>
+                            <th>Paid Price</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                     {expenses.map(exp => (
-                        <tr style={{backgroundColor: exp.paid ? 'green' : 'red'}} key={`expense-${exp.id}`}>
+                        <tr key={`expense-${exp.id}`}>
                             <td>{exp.name}</td>
-                            <td>{exp.price}</td>
+                            <td>${exp.price}</td>
+                            <td>${exp.paid}</td>
                             <td>
-                                {!exp.paid && <button
-                                    type='button'
-                                    onClick={() => {
-                                        dispatch(updateExpense({...exp, paid: true}))
-                                    }}
-                                >
-                                    Complete Expense
-                                </button>}
-                                <button type='button' onClick={() => dispatch(removeExpense(exp.id))}>
-                                    Remove Expense
-                                </button>
+                                <ExpenseActionForm expense={exp}/>
                             </td>
                         </tr>
                     ))}

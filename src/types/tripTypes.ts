@@ -19,7 +19,7 @@ export type TripExpense = {
     tripId: number;
     name: string;
     price: number;
-    paid: boolean;
+    paid: number;
 }
 
 export type Trip = {
