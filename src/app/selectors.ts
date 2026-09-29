@@ -1,5 +1,5 @@
 import type {RootState} from "@/app/store.ts"
-import type {TripExpense, TripLocation} from "@/types/tripTypes.ts"
+import type {Trip, TripActivity, TripExpense, TripLocation, TripTask} from "@/types/tripTypes.ts"
 
 export const nextIdSelector = (state: RootState): number => {
     if (state.trips.trips.length) {
@@ -33,15 +33,20 @@ export const nextExpenseIdSelector = (state: RootState): number => {
     }
 }
 
-export const tripsSelector = (state: RootState) => state.trips.trips
+export const nextTaskIdSelector = (state: RootState): number => {
+    if (state.tasks.tasks.length) {
+        return 1 + Math.max(...state.tasks.tasks.map(task => task.id))
+    } else {
+        return 1
+    }
+}
 
-export const activitiesSelector = (state: RootState) => state.activities.activities
+export const tripsSelector = (state: RootState): Array<Trip> => state.trips.trips
+
+export const activitiesSelector = (state: RootState): Array<TripActivity> => state.activities.activities
 
 export const locationsSelector = (state: RootState): Array<TripLocation> => state.locations.locations
 
 export const expensesSelector = (state: RootState): Array<TripExpense> => state.expenses.expenses
 
-export const areOverlappingSelector = (_state: RootState): boolean => {
-    // TODO: for status bar
-    return false
-}
+export const tasksSelector = (state: RootState): Array<TripTask> => state.tasks.tasks

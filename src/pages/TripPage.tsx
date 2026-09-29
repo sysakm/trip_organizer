@@ -10,9 +10,10 @@ import {useState} from "react"
 import LocationAdditionForm from "@/components/LocationAdditionForm.tsx";
 import ExpenseAdditionForm from "@/components/ExpenseAdditionForm.tsx";
 import TripExpensesTable from "@/components/TripExpensesTable.tsx";
+import TaskList from "@/components/TaskList.tsx";
 
 const subPageEntries = [
-    'timeline', 'budget'
+    'timeline', 'budget', 'tasks'
 ] as const
 
 function TripPage() {
@@ -71,6 +72,7 @@ function TripPage() {
                                 <TripExpensesTable trip={trip}/>
                                 <ExpenseAdditionForm trip={trip}/>
                             </>}
+                            {subPage === 'tasks' && <TaskList trip={trip}/>}
                         </>
                     ) : (
                         <>

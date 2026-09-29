@@ -2,6 +2,7 @@ import tripsReducer from "@/features/trips/tripsSlice.ts"
 import activitiesReducer from "@/features/activities/activitiesSlice.ts"
 import locationsReducer from "@/features/locations/locationsSlice.ts"
 import expensesReducer from "@/features/expenses/expensesSlice.ts"
+import tasksReducer from "@/features/tasks/tasksSlice.ts"
 import {configureStore} from "@reduxjs/toolkit"
 import {logger} from "redux-logger"
 
@@ -10,7 +11,8 @@ export const store = configureStore({
         trips: tripsReducer,
         activities: activitiesReducer,
         locations: locationsReducer,
-        expenses: expensesReducer
+        expenses: expensesReducer,
+        tasks: tasksReducer
     },
     middleware: (getDefaultMiddleware) => {
         const middleware = getDefaultMiddleware()
