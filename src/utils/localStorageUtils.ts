@@ -1,4 +1,5 @@
 import type {RootState} from "@/app/store.ts"
+import {validateRootState} from "@/utils/localStorageValidationUtils.ts";
 
 const STORAGE_KEY = 'trip-organizer-application-rtk-state-v1'
 
@@ -21,7 +22,12 @@ export function loadState(): unknown | undefined {
         if (!stateString) {
             return undefined
         } else {
-            return JSON.parse(stateString)
+            const state: unknown = JSON.parse(stateString)
+            if (!validateRootState(state)) {
+                throw new Error('localStorage state corrupted')
+            } else {
+                return state
+            }
         }
     } catch (error) {
         clearState()
