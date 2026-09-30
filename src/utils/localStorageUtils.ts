@@ -24,7 +24,7 @@ export function loadState(): unknown | undefined {
         } else {
             const state: unknown = JSON.parse(stateString)
             if (!validateRootState(state)) {
-                throw new Error('localStorage state corrupted')
+                throw new Error('localStorage state corrupted: ' + stateString)
             } else {
                 return state
             }

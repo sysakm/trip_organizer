@@ -150,29 +150,34 @@ function validateArray(array: unknown): array is Array<unknown> {
 export function validateRootState(state: unknown): state is RootState {
     if (typeof state !== 'object' || state === null) return false
 
-    if (!('trips' in state) || !validateArray(state.trips)) return false
-    if (!state.trips.every(trip => validateTrip(trip))) return false
-    if (!validateUniqueIds(state.trips)) return false
+    if (!('trips' in state) || typeof state.trips !== 'object' || state.trips === null) return false
+    if (!('trips' in state.trips) || !validateArray(state.trips.trips)) return false
+    if (!state.trips.trips.every(trip => validateTrip(trip))) return false
+    if (!validateUniqueIds(state.trips.trips)) return false
 
-    if (!('activities' in state) || !validateArray(state.activities)) return false
-    if (!state.activities.every(activity => validateActivity(activity))) return false
-    if (!validateUniqueIds(state.activities)) return false
-    if (!validateTripIdsPresent(state.activities, state.trips)) return false
+    if (!('activities' in state) || typeof state.activities !== 'object' || state.activities === null) return false
+    if (!('activities' in state.activities) || !validateArray(state.activities.activities)) return false
+    if (!state.activities.activities.every(activity => validateActivity(activity))) return false
+    if (!validateUniqueIds(state.activities.activities)) return false
+    if (!validateTripIdsPresent(state.activities.activities, state.trips.trips)) return false
 
-    if (!('locations' in state) || !validateArray(state.locations)) return false
-    if (!state.locations.every(location => validateLocation(location))) return false
-    if (!validateUniqueIds(state.locations)) return false
-    if (!validateTripIdsPresent(state.locations, state.trips)) return false
+    if (!('locations' in state) || typeof state.locations !== 'object' || state.locations === null) return false
+    if (!('locations' in state.locations) || !validateArray(state.locations.locations)) return false
+    if (!state.locations.locations.every(location => validateLocation(location))) return false
+    if (!validateUniqueIds(state.locations.locations)) return false
+    if (!validateTripIdsPresent(state.locations.locations, state.trips.trips)) return false
 
-    if (!('expenses' in state) || !validateArray(state.expenses)) return false
-    if (!state.expenses.every(expense => validateExpense(expense))) return false
-    if (!validateUniqueIds(state.expenses)) return false
-    if (!validateTripIdsPresent(state.expenses, state.trips)) return false
+    if (!('expenses' in state) || typeof state.expenses !== 'object' || state.expenses === null) return false
+    if (!('expenses' in state.expenses) || !validateArray(state.expenses.expenses)) return false
+    if (!state.expenses.expenses.every(expense => validateExpense(expense))) return false
+    if (!validateUniqueIds(state.expenses.expenses)) return false
+    if (!validateTripIdsPresent(state.expenses.expenses, state.trips.trips)) return false
 
-    if (!('tasks' in state) || !validateArray(state.tasks)) return false
-    if (!state.tasks.every(task => validateTask(task))) return false
-    if (!validateUniqueIds(state.tasks)) return false
-    if (!validateTripIdsPresent(state.tasks, state.trips)) return false
+    if (!('tasks' in state) || typeof state.tasks !== 'object' || state.tasks === null) return false
+    if (!('tasks' in state.tasks) || !validateArray(state.tasks.tasks)) return false
+    if (!state.tasks.tasks.every(task => validateTask(task))) return false
+    if (!validateUniqueIds(state.tasks.tasks)) return false
+    if (!validateTripIdsPresent(state.tasks.tasks, state.trips.trips)) return false
 
     return true
 }
