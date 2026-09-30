@@ -9,7 +9,7 @@ type Props = {
 function TripCard(props: Props) {
     const trip = props.trip
     return (
-        <>
+        <div style={{border: props.stats ? '1px solid red' : ''}}>
             <aside>{trip.id}</aside>
             <h3>{trip.name}: {trip.startDate} - {trip.endDate} (Budget ${trip.budget})</h3>
             {props.stats && <dl>
@@ -19,7 +19,7 @@ function TripCard(props: Props) {
                 <dt>Expenses:</dt><dd>{props.stats.nExpenses}</dd>
                 <dt>Tasks:</dt><dd>{props.stats.nTasks}</dd>
             </dl>}
-        </>
+        </div>
     )
 }
 

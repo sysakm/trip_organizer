@@ -1,4 +1,4 @@
-import type {RootState} from "@/app/store.ts";
+import type {RootState} from "@/app/store.ts"
 
 const STORAGE_KEY = 'trip-organizer-application-rtk-state-v1'
 

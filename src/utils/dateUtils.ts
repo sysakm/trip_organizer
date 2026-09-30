@@ -87,3 +87,7 @@ export function formatDateUtil(date: string) {
         year: 'numeric'
     })
 }
+
+export function getCurrentDateUtil() {
+    return (new Date()).toISOString().slice(0, 10)
+}

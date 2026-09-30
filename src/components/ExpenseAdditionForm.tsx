@@ -1,8 +1,8 @@
 import type {Trip} from "@/types/tripTypes.ts"
-import {type SubmitEvent, useState} from "react";
-import {useAppDispatch, useAppSelector} from "@/app/hooks.ts";
-import {nextExpenseIdSelector} from "@/app/selectors.ts";
-import {addExpense} from "@/features/expenses/expensesSlice.ts";
+import {type SubmitEvent, useState} from "react"
+import {useAppDispatch, useAppSelector} from "@/app/hooks.ts"
+import {nextExpenseIdSelector} from "@/app/selectors.ts"
+import {addExpense} from "@/features/expenses/expensesSlice.ts"
 
 type Props = {
     trip: Trip

@@ -1,7 +1,7 @@
 import type {TripExpense} from "@/types/tripTypes.ts"
-import {useAppDispatch} from "@/app/hooks.ts";
-import {removeExpense, updateExpense} from "@/features/expenses/expensesSlice.ts";
-import {useState} from "react";
+import {useAppDispatch} from "@/app/hooks.ts"
+import {removeExpense, updateExpense} from "@/features/expenses/expensesSlice.ts"
+import {useState} from "react"
 
 type Props = {
     expense: TripExpense;

@@ -1,8 +1,8 @@
 import {type Trip, TripTaskCategories} from "@/types/tripTypes.ts"
 import {useState} from "react"
 import {useAppDispatch, useAppSelector} from "@/app/hooks.ts"
-import {nextTaskIdSelector, tasksSelector} from "@/app/selectors.ts";
-import {addTask, removeTask, updateTask} from "@/features/tasks/tasksSlice.ts";
+import {nextTaskIdSelector, tasksSelector} from "@/app/selectors.ts"
+import {addTask, removeTask, updateTask} from "@/features/tasks/tasksSlice.ts"
 
 type Props = {
     trip: Trip
