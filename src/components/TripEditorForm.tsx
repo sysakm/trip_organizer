@@ -12,7 +12,7 @@ type Props = {
 function validateForm(name: string, startDate: string, endDate: string, budget: number): string | null {
     if (!name.trim()) return 'Name can not be empty'
     if (!startDate || !endDate || startDate.localeCompare(endDate) > 0) return 'Date range has to be valid'
-    if (!Number.isInteger(budget) || budget < 0) return 'Budget must be a positive integer'
+    if (!Number.isInteger(budget) || budget <= 0) return 'Budget must be a positive integer'
     return null
 }
 

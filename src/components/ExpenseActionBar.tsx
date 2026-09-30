@@ -7,9 +7,27 @@ type Props = {
     expense: TripExpense;
 }
 
+function validatePaidExpense(amount: number): string | null {
+    if (isNaN(amount) || amount < 0) return 'Amount must be valid'
+    return null
+}
+
 function ExpenseActionBar(props: Props) {
     const dispatch = useAppDispatch()
     const [amount, setAmount] = useState(props.expense.price)
+
+    const [error, setError] = useState('')
+
+    function handleCompleteExpense() {
+        const newError = validatePaidExpense(amount)
+        if (newError) {
+            setError(newError)
+        } else {
+            dispatch(updateExpense({...props.expense, paid: Number(amount.toFixed(2))}))
+            setError('')
+        }
+    }
+
     return (
         <div className='expense-actions'>
             {props.expense.paid === null && <input
@@ -23,15 +41,14 @@ function ExpenseActionBar(props: Props) {
             />}
             {props.expense.paid === null && <button className='button button--quiet'
                 type='button'
-                onClick={() => {
-                    dispatch(updateExpense({...props.expense, paid: Number(amount.toFixed(2))}))
-                }}
+                onClick={handleCompleteExpense}
             >
                 Complete Expense
             </button>}
             <button className='button button--quiet' type='button' onClick={() => dispatch(removeExpense(props.expense.id))}>
                 Remove Expense
             </button>
+            {error && (<p className='form__error' role='alert'>{error}</p>)}
         </div>
     )
 }
