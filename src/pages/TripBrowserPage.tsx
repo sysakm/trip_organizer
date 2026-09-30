@@ -1,12 +1,28 @@
-import {tripsSelector} from "@/app/selectors.ts"
 import {useAppSelector} from "@/app/hooks.ts"
 import {useState} from "react"
-import { Link } from "react-router-dom"
+import {Link} from "react-router-dom"
+import TripCard from "@/components/TripCard.tsx"
+import {calculateEntryNumbersForTrips, type EntryNumbersRecord} from "@/utils/tripUtils.ts"
+import {
+    activitiesSelector,
+    expensesSelector,
+    locationsSelector,
+    tasksSelector,
+    tripsSelector
+} from "@/app/selectors.ts"
 
 function TripBrowserPage() {
     const [selected, setSelected] = useState('')
     const trips = useAppSelector(tripsSelector)
+    const activities = useAppSelector(activitiesSelector)
+    const locations = useAppSelector(locationsSelector)
+    const expenses = useAppSelector(expensesSelector)
+    const tasks = useAppSelector(tasksSelector)
 
+    const tripStats = calculateEntryNumbersForTrips(
+        activities, locations, expenses, tasks
+    )
+    const emptyStatsTemplate: EntryNumbersRecord = {nActivities: 0, nExpenses: 0, nLocations: 0, nTasks: 0}
     const isTripSelected = selected !== ''
     const trip = trips.find(trip => trip.id.toString() === selected)
 
@@ -35,8 +51,7 @@ function TripBrowserPage() {
                             (
                                 <>
                                     <Link to={`/browse/${trip.id}`}>Open Full Trip Page</Link>
-                                    <aside>{trip.id}</aside>
-                                    <h3>{trip.name}: {trip.startDate}-{trip.endDate}</h3>
+                                    <TripCard trip={trip}/>
                                 </>
                             ) : (
                                 <p>Something went wrong - no such trip in store</p>
@@ -45,6 +60,11 @@ function TripBrowserPage() {
                     : (trips.length > 0 && <p>Select a trip from the dropdown menu!</p>)
                 }
             </div>
+            <div>{trips.map(trip => (
+                <div key={`clickable-trip-card-${trip.id}`} onClick={() => setSelected(trip.id.toString())}>
+                    <TripCard trip={trip} stats={tripStats.get(trip.id) ?? emptyStatsTemplate}/>
+                </div>
+            ))}</div>
         </>
     )
 }

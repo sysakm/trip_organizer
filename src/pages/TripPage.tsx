@@ -7,10 +7,11 @@ import {Link, useNavigate, useParams} from "react-router-dom"
 import {tripsSelector} from "@/app/selectors.ts"
 import {useAppDispatch, useAppSelector} from "@/app/hooks.ts"
 import {useState} from "react"
-import LocationAdditionForm from "@/components/LocationAdditionForm.tsx";
-import ExpenseAdditionForm from "@/components/ExpenseAdditionForm.tsx";
-import TripExpensesTable from "@/components/TripExpensesTable.tsx";
-import TaskList from "@/components/TaskList.tsx";
+import LocationAdditionForm from "@/components/LocationAdditionForm.tsx"
+import ExpenseAdditionForm from "@/components/ExpenseAdditionForm.tsx"
+import TripExpensesTable from "@/components/TripExpensesTable.tsx"
+import TaskList from "@/components/TaskList.tsx"
+import TripCard from "@/components/TripCard.tsx"
 
 const subPageEntries = [
     'timeline', 'budget', 'tasks'
@@ -32,8 +33,7 @@ function TripPage() {
                     trip ? (
                         <>
                             <Link to='/browse'>Back To Browsing</Link>
-                            <aside>{trip.id}</aside>
-                            <h3>{trip.name}: {trip.startDate} - {trip.endDate} (Budget ${trip.budget})</h3>
+                            <TripCard trip={trip}/>
                             {isEditing ? <>
                                 <TripEditorForm
                                     key={trip.id}

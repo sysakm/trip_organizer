@@ -4,7 +4,6 @@ function AppLayout() {
     return (
         <div>
             <header>
-                status bar...
                 <NavLink to='/'>Home</NavLink>
                 <NavLink to='/create'>Create new trip</NavLink>
                 <NavLink to='/browse'>Browse trips</NavLink>

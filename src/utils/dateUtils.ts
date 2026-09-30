@@ -10,6 +10,12 @@ export function createDateIntervalUtil(startDate: string, endDate: string): Arra
     return dates
 }
 
+export function dateDifferenceUtil(startDate: string, endDate: string): number {
+    const ms1 = new Date(startDate).getTime()
+    const ms2 = new Date(endDate).getTime()
+    return Math.round((ms2 - ms1) / (24 * 60 * 60 * 1000))
+}
+
 export function adjustDateUtil(date: string, step: number) {
     const dateObj = new Date(date)
     dateObj.setUTCDate(dateObj.getUTCDate() + step)

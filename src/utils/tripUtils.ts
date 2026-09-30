@@ -1,4 +1,4 @@
-import type {Trip, TripActivity, TripLocation} from "@/types/tripTypes.ts"
+import type {Trip, TripActivity, TripExpense, TripLocation, TripTask} from "@/types/tripTypes.ts"
 
 export function createTripUtil(id: number, name: string, startDate: string, endDate: string, budget: number): Trip {
     return {
@@ -24,4 +24,35 @@ export function sortActivitiesByTimeUtil(activities: Array<TripActivity>) {
             return -1
         return a.name.localeCompare(b.name)
     })
+}
+
+export type EntryNumbersRecord = {
+    nLocations: number;
+    nActivities: number;
+    nExpenses: number;
+    nTasks: number;
+}
+
+export function calculateEntryNumbersForTrips(
+    activities: Array<TripActivity>, locations: Array<TripLocation>, expenses: Array<TripExpense>, tasks: Array<TripTask>
+): Map<number, EntryNumbersRecord> {
+    const map = new Map<number, EntryNumbersRecord>()
+    const outerList: Array<[string, Array<{tripId: number}>]> = [
+        ['nActivities', activities],
+        ['nLocations', locations],
+        ['nExpenses', expenses],
+        ['nTasks', tasks]
+    ]
+    for (const [name, array] of outerList) {
+        for (const entry of array) {
+            const record = map.get(entry.tripId)
+            if (record) {
+                map.set(entry.tripId, {...record, [name]: record[name as keyof typeof record] + 1});
+            } else {
+                map.set(entry.tripId, {nActivities: 0, nExpenses: 0, nLocations: 0, nTasks: 0, [name]: 1})
+            }
+        }
+    }
+
+    return map
 }
