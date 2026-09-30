@@ -17,15 +17,16 @@ function TripExpensesTable(props: Props) {
         Number((total + (exp.paid ?? 0)).toFixed(2)), 0)
 
     return (
-        <>
-            <p>
-                <span style={{color: expectedExpenses > props.trip.budget ? 'AccentColor' : ''}}>
+        <section className='expenses-panel'>
+            <div className='budget-summary'>
+                <span className={`budget-summary__item${expectedExpenses > props.trip.budget ? ' budget-summary__item--over' : ''}`}>
                     Expected Total Spendings: ${expectedExpenses}/${props.trip.budget}</span>
-                <span style={{color: realizedExpenses > props.trip.budget ? 'AccentColor' : ''}}>
+                <span className={`budget-summary__item${realizedExpenses > props.trip.budget ? ' budget-summary__item--over' : ''}`}>
                     Total Spent: ${realizedExpenses}/${props.trip.budget}</span>
-            </p>
+            </div>
             {expenses.length > 0 && <div>
-                <table>
+                <div className='table-wrap'>
+                <table className='data-table'>
                     <thead>
                         <tr>
                             <th>Expense</th>
@@ -47,8 +48,9 @@ function TripExpensesTable(props: Props) {
                     ))}
                     </tbody>
                 </table>
+                </div>
             </div>}
-        </>
+        </section>
     )
 }
 

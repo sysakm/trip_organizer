@@ -86,46 +86,62 @@ function TripBrowserPage() {
     const isTripSelected = filteredTrips.some(trip => trip.id.toString() === selected)
 
     return (
-        <>
-            <h1>Browse your trips:</h1>
-            <div>
-                <input
-                    type='text'
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                />
-                <select
-                    value={filterType}
-                    onChange={(e) => setFilterType(e.target.value as FilterType)}
-                >
+        <section className='page page--browser'>
+            <div className='page__intro'>
+                <p className='eyebrow'>Your collection</p>
+                <h1>Browse your trips</h1>
+                <p className='page__lede'>Search, filter, and sort your saved plans.</p>
+            </div>
+            <div className='trip-browser__controls' role='search'>
+                <label className='form-field form-field--search' htmlFor='trip-search'>
+                    <span className='form-field__label'>Search trips</span>
+                    <input
+                        id='trip-search'
+                        type='search'
+                        placeholder='Trip, activity, place, expense, or task'
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                    />
+                </label>
+                <label className='form-field' htmlFor='trip-filter'>
+                    <span className='form-field__label'>Show</span>
+                    <select id='trip-filter'
+                            value={filterType}
+                            onChange={(e) => setFilterType(e.target.value as FilterType)}>
                     {filterTypes.map(filter => (
                         <option key={`filter-type-${filter}`} value={filter}>
                             {filter}
                         </option>
                     ))}
-                </select>
-                <select
-                    value={sortingType}
-                    onChange={(e) => setSortingType(e.target.value as SortingType)}
-                >
+                    </select>
+                </label>
+                <label className='form-field' htmlFor='trip-sort'>
+                    <span className='form-field__label'>Sort by</span>
+                    <select id='trip-sort'
+                            value={sortingType}
+                            onChange={(e) => setSortingType(e.target.value as SortingType)}>
                     {sortingTypes.map(sorting => (
                         <option key={`sorting-type-${sorting}`} value={sorting}>
                             {sorting}
                         </option>
                     ))}
-                </select>
-                {sortingType !== 'none' && (<select
-                    value={sortingDirection}
-                    onChange={(e) => setSortingDirection(e.target.value as SortingDirection)}
-                >
+                    </select>
+                </label>
+                {sortingType !== 'none' && (<label className='form-field' htmlFor='trip-sort-direction'>
+                    <span className='form-field__label'>Direction</span>
+                    <select id='trip-sort-direction'
+                            value={sortingDirection}
+                            onChange={(e) => setSortingDirection(e.target.value as SortingDirection)}>
                     {sortingDirections.map(direction => (
                         <option key={`sorting-direction-${direction}`} value={direction}>
                             {direction}
                         </option>
                     ))}
-                </select>)}
+                    </select>
+                </label>)}
             </div>
-            <label htmlFor='trip-select'>{filteredTrips.length ? 'Choose the trip' : 'No trips match the filters'}</label>
+            <label className='form-field trip-browser__select' htmlFor='trip-select'>
+                <span className='form-field__label'>{filteredTrips.length ? 'Choose a trip' : 'No trips match the filters'}</span>
             <select id='trip-select'
                     disabled={filteredTrips.length === 0}
                     value={selected}
@@ -139,14 +155,15 @@ function TripBrowserPage() {
                     </option>
                 ))}
             </select>
-            <div>
+            </label>
+            <div className='trip-browser__selected'>
                 {
                     isTripSelected ?
                         (
                             trip ?
                             (
                                 <>
-                                    <Link to={`/browse/${trip.id}`}>Open Full Trip Page</Link>
+                                    <Link className='button button--secondary' to={`/browse/${trip.id}`}>Open full trip page</Link>
                                     <TripCard trip={trip}/>
                                 </>
                             ) : (
@@ -156,12 +173,12 @@ function TripBrowserPage() {
                     : (filteredTrips.length > 0 && <p>Select a trip from the dropdown menu!</p>)
                 }
             </div>
-            <div>{filteredTrips.map(trip => (
-                <div key={`clickable-trip-card-${trip.id}`} onClick={() => setSelected(trip.id.toString())}>
+            <div className='trip-browser__grid'>{filteredTrips.map(trip => (
+                <button className='trip-browser__card-button' type='button' key={`clickable-trip-card-${trip.id}`} aria-label={`Select ${trip.name}`} onClick={() => setSelected(trip.id.toString())}>
                     <TripCard trip={trip} stats={tripStats.get(trip.id) ?? emptyStatsTemplate}/>
-                </div>
+                </button>
             ))}</div>
-        </>
+        </section>
     )
 }
 

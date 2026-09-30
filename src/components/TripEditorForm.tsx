@@ -42,9 +42,9 @@ function TripEditorForm(props: Props) {
     }
 
     return (
-        <form onSubmit={handleSubmit}>
-            <label htmlFor="name">
-                Trip Name
+        <form className='form form--trip-editor' onSubmit={handleSubmit}>
+            <label className='form-field' htmlFor="name">
+                <span className='form-field__label'>Trip Name</span>
                 <input
                     type="text" value={name} id="name"
                     onChange={(e) => setName(e.target.value)}
@@ -54,15 +54,17 @@ function TripEditorForm(props: Props) {
                             onChange={setStartDate}/>
             <DateInputField label='End date' id='endDate' value={endDate}
                             onChange={setEndDate}/>
-            <label htmlFor="budget">
-                Budget ($)
+            <label className='form-field' htmlFor="budget">
+                <span className='form-field__label'>Budget ($)</span>
                 <input
                     type="number" value={budget} min='1' step='1' id='budget'
                     onChange={(e) => setBudget(Number(e.target.value))}
                 />
             </label>
-            <button type='submit'>{props.trip ? 'Update trip' : 'Add trip'}</button>
-            {error && (<p style={{color: 'orangered'}}>{error}</p>)}
+            <div className='form__actions'>
+                <button className='button button--primary' type='submit'>{props.trip ? 'Update trip' : 'Add trip'}</button>
+            </div>
+            {error && (<p className='form__error' role='alert'>{error}</p>)}
         </form>
     )
 }

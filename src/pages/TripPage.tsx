@@ -26,14 +26,18 @@ function TripPage() {
     const [subPage, setSubPage] = useState<(typeof subPageEntries)[number]>('timeline')
 
     return (
-        <>
-            <h1>Trip Page</h1>
-            <div>
+        <section className='page page--trip'>
+            <div className='page__intro'>
+                <p className='eyebrow'>Trip workspace</p>
+                <h1>Trip Page</h1>
+            </div>
+            <div className='trip-page__content'>
                 {
                     trip ? (
                         <>
-                            <Link to='/browse'>Back To Browsing</Link>
+                            <Link className='button button--secondary back-link' to='/browse'>Back to browsing</Link>
                             <TripCard trip={trip}/>
+                            <div className='trip-page__actions'>
                             {isEditing ? <>
                                 <TripEditorForm
                                     key={trip.id}
@@ -45,24 +49,26 @@ function TripPage() {
                                         }
                                     }
                                 />
-                                <button type='button' onClick={() => setIsEditing(false)}>Leave without editing</button>
+                                <button className='button button--secondary' type='button' onClick={() => setIsEditing(false)}>Leave without editing</button>
                             </> : <button type='button' onClick={() => setIsEditing(true)}>
                                 Edit this trip
                             </button>}
                             <button type='button'
+                                    className='button button--danger'
                                     onClick={() => {
                                         dispatch(removeTrip(trip.id))
                                         navigate('/browse')
                                     }}>
                                 Delete this trip
                             </button>
-                            <div>
+                            </div>
+                            <nav className='trip-page__tabs' aria-label='Trip sections'>
                                 {subPageEntries.map(entry => (
-                                    <button key={'sub-page'+entry} type='button' disabled={subPage===entry} onClick={() => setSubPage(entry)}>
+                                    <button className='trip-page__tab' key={'sub-page'+entry} type='button' aria-pressed={subPage===entry} disabled={subPage===entry} onClick={() => setSubPage(entry)}>
                                         {entry}
                                     </button>
                                 ))}
-                            </div>
+                            </nav>
                             {subPage === 'timeline' && <>
                                 <TripTimeline trip={trip}/>
                                 <LocationAdditionForm trip={trip}/>
@@ -82,7 +88,7 @@ function TripPage() {
                     )
                 }
             </div>
-        </>
+        </section>
     )
 }
 

@@ -56,16 +56,17 @@ function ActivityAdditionForm(props: Props) {
     }
 
     return (
-        <form onSubmit={handleSubmit}>
-            <label htmlFor="activity-name">
-                Activity Name
+        <form className='form form--entry' onSubmit={handleSubmit}>
+            <h3 className='form__title'>Add an activity</h3>
+            <label className='form-field' htmlFor="activity-name">
+                <span className='form-field__label'>Activity name</span>
                 <input
                     type="text" value={name} id="activity-name"
                     onChange={(e) => setName(e.target.value)}
                 />
             </label>
-            <label htmlFor='date-select'>
-                Date
+            <label className='form-field' htmlFor='date-select'>
+                <span className='form-field__label'>Date</span>
                 <select id='date-select'
                         disabled={dateList.length === 0}
                         value={date}
@@ -80,19 +81,21 @@ function ActivityAdditionForm(props: Props) {
                     ))}
                 </select>
             </label>
-            <label htmlFor="specify-time">
-                Add Specific Time
+            <label className='form-field form-field--checkbox' htmlFor="specify-time">
+                <span className='form-field__label'>Add specific time</span>
                 <input id='specify-time' type='checkbox' checked={specifyTime} onChange={() => setSpecifyTime(!specifyTime)}/>
             </label>
             {specifyTime && (
-                <label htmlFor="time">
-                    Time
+                <label className='form-field' htmlFor="time">
+                    <span className='form-field__label'>Time</span>
                     <input id='time' type='time' value={time} onChange={(e) => setTime(e.target.value)}/>
                 </label>
             )}
-            <button type='submit'>Add Activity</button>
-            <button type='button' onClick={handleReset}>Clear Form</button>
-            {error && (<p style={{color: 'orangered'}}>{error}</p>)}
+            <div className='form__actions'>
+                <button className='button button--primary' type='submit'>Add activity</button>
+                <button className='button button--secondary' type='button' onClick={handleReset}>Clear form</button>
+            </div>
+            {error && (<p className='form__error' role='alert'>{error}</p>)}
         </form>
     )
 }

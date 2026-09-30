@@ -7,8 +7,8 @@ type Props = {
 
 function DateInputField(props: Props) {
     return (
-        <label htmlFor={props.id}>
-            {props.label}
+        <label className='form-field' htmlFor={props.id}>
+            <span className='form-field__label'>{props.label}</span>
             <input
                 id={props.id}
                 type='date'

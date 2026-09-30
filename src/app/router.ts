@@ -25,10 +25,7 @@ export const router = createBrowserRouter([
             {
                 path: 'browse',
                 Component: TripBrowserPage,
-                HydrateFallback: RouterLoader,
-                loader: async () => {
-                    await new Promise(resolve => setTimeout(resolve, 500))
-                }
+                HydrateFallback: RouterLoader
             },
             {
                 path: 'browse/:id',

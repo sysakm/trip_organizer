@@ -4,7 +4,7 @@ function RouterError() {
     const error: unknown = useRouteError()
     if (isRouteErrorResponse(error)) {
         return (
-            <div>
+            <div className='page page--error'>
                 <h1>
                     {error.status} - {error.statusText}
                 </h1>
@@ -14,7 +14,7 @@ function RouterError() {
         )
     } else if (error instanceof Error) {
         return (
-            <div>
+            <div className='page page--error'>
                 <h1>Error</h1>
                 <p>{error.message}</p>
                 <p>The stack trace is:</p>
@@ -24,7 +24,7 @@ function RouterError() {
         )
     } else {
         return (
-            <div>
+            <div className='page page--error'>
                 <h1>Unknown Error</h1>
                 <Link to='/'>{'<- '} Go back home</Link>
             </div>

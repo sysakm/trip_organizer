@@ -45,8 +45,10 @@ function TaskList(props: Props) {
     }
 
     return (
-        <div>
-            <table>
+        <section className='task-list'>
+            <h2 className='section-title'>Tasks</h2>
+            <div className='table-wrap'>
+            <table className='data-table'>
                 <thead>
                     <tr>
                         <th>Category</th>
@@ -56,11 +58,11 @@ function TaskList(props: Props) {
                 </thead>
                 <tbody>
                     {tasks.map(task => (
-                        <tr key={`task-${task.id}`} style={{textDecoration: task.done ? 'line-through' : ''}}>
+                        <tr className={task.done ? 'task-list__row task-list__row--done' : 'task-list__row'} key={`task-${task.id}`}>
                             <td>{task.category}</td>
                             <td>{task.description}</td>
                             <td>
-                                <button
+                                <button className='button button--quiet'
                                     type='button'
                                     onClick={() =>
                                         dispatch(updateTask({...task, done: !task.done}))
@@ -68,7 +70,7 @@ function TaskList(props: Props) {
                                 >
                                     {task.done ? 'Uncomplete' : 'Complete'}
                                 </button>
-                                <button
+                                <button className='button button--quiet'
                                     type='button'
                                     onClick={() =>
                                         dispatch(removeTask(task.id))
@@ -83,8 +85,8 @@ function TaskList(props: Props) {
                 <tfoot>
                     <tr>
                         <td>
-                            <label htmlFor='task-category'>
-                                Choose category
+                            <label className='form-field' htmlFor='task-category'>
+                                <span className='form-field__label'>Choose category</span>
                                 <select id='task-category'
                                         value={category}
                                         onChange={(e) =>
@@ -102,7 +104,8 @@ function TaskList(props: Props) {
                             </label>
                         </td>
                         <td>
-                            <label htmlFor='task-description'>
+                            <label className='form-field' htmlFor='task-description'>
+                                <span className='form-field__label'>Description</span>
                                 <textarea
                                     id='task-description' rows={4} value={description}
                                     onChange={(e) => setDescription(e.target.value)}
@@ -110,17 +113,18 @@ function TaskList(props: Props) {
                             </label>
                         </td>
                         <td>
-                            <button
+                            <button className='button button--primary'
                                 type='button'
                                 onClick={handleAddTask}
-                            >Add Task</button>
-                            <button type='button' onClick={handleReset}>Clear Form</button>
-                            {error && (<p style={{color: 'orangered'}}>{error}</p>)}
+                            >Add task</button>
+                            <button className='button button--secondary' type='button' onClick={handleReset}>Clear form</button>
+                            {error && (<p className='form__error' role='alert'>{error}</p>)}
                         </td>
                     </tr>
                 </tfoot>
             </table>
-        </div>
+            </div>
+        </section>
     )
 }
 

@@ -11,15 +11,17 @@ function ExpenseActionBar(props: Props) {
     const dispatch = useAppDispatch()
     const [amount, setAmount] = useState(props.expense.price)
     return (
-        <>
+        <div className='expense-actions'>
             {props.expense.paid === null && <input
+                aria-label={`Paid amount for ${props.expense.name}`}
+                className='expense-actions__amount'
                 type='number'
                 value={amount}
                 min='0'
                 step='0.01'
                 onChange={(e) => setAmount(Number(e.target.value))}
             />}
-            {props.expense.paid === null && <button
+            {props.expense.paid === null && <button className='button button--quiet'
                 type='button'
                 onClick={() => {
                     dispatch(updateExpense({...props.expense, paid: Number(amount.toFixed(2))}))
@@ -27,10 +29,10 @@ function ExpenseActionBar(props: Props) {
             >
                 Complete Expense
             </button>}
-            <button type='button' onClick={() => dispatch(removeExpense(props.expense.id))}>
+            <button className='button button--quiet' type='button' onClick={() => dispatch(removeExpense(props.expense.id))}>
                 Remove Expense
             </button>
-        </>
+        </div>
     )
 }
 

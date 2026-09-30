@@ -7,14 +7,14 @@ function TripCreationPage() {
     const dispatch = useAppDispatch()
 
     return (
-        <>
+        <section className='page page--creation'>
             <h1>Create New Trip:</h1>
             <TripEditorForm submitAction={
                 (id: number, name: string, startDate: string, endDate: string, budget: number) => {
                     dispatch(addTrip(createTripUtil(id, name, startDate, endDate, budget)))
                 }
             }/>
-        </>
+        </section>
     )
 }
 

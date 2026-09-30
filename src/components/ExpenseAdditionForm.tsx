@@ -45,16 +45,17 @@ function ExpenseAdditionForm(props: Props) {
     }
 
     return (
-        <form onSubmit={handleSubmit}>
-            <label htmlFor="expense-name">
-                Expense Name
+        <form className='form form--entry' onSubmit={handleSubmit}>
+            <h3 className='form__title'>Add an expense</h3>
+            <label className='form-field' htmlFor="expense-name">
+                <span className='form-field__label'>Expense name</span>
                 <input
                     type="text" value={name} id="expense-name"
                     onChange={(e) => setName(e.target.value)}
                 />
             </label>
-            <label htmlFor="expense-price">
-                Price, $
+            <label className='form-field' htmlFor="expense-price">
+                <span className='form-field__label'>Price ($)</span>
                 <input
                     type="number" value={price} min='0.01' step='0.01' id='expense-price'
                     onChange={(e) =>
@@ -62,9 +63,11 @@ function ExpenseAdditionForm(props: Props) {
                     }
                 />
             </label>
-            <button type='submit'>Add Expense</button>
-            <button type='button' onClick={handleReset}>Clear Form</button>
-            {error && (<p style={{color: 'orangered'}}>{error}</p>)}
+            <div className='form__actions'>
+                <button className='button button--primary' type='submit'>Add expense</button>
+                <button className='button button--secondary' type='button' onClick={handleReset}>Clear form</button>
+            </div>
+            {error && (<p className='form__error' role='alert'>{error}</p>)}
         </form>
     )
 }

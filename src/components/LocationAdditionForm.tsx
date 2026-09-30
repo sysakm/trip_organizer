@@ -52,16 +52,17 @@ function LocationAdditionForm(props: Props) {
     }
 
     return (
-        <form onSubmit={handleSubmit}>
-            <label htmlFor="location-name">
-                Location Name
+        <form className='form form--entry' onSubmit={handleSubmit}>
+            <h3 className='form__title'>Add a location</h3>
+            <label className='form-field' htmlFor="location-name">
+                <span className='form-field__label'>Location name</span>
                 <input
                     type="text" value={name} id="location-name"
                     onChange={(e) => setName(e.target.value)}
                 />
             </label>
-            <label htmlFor='start-date-select'>
-                Start Date
+            <label className='form-field' htmlFor='start-date-select'>
+                <span className='form-field__label'>Start date</span>
                 <select id='start-date-select'
                         disabled={dateList.length === 0}
                         value={startDate}
@@ -81,8 +82,8 @@ function LocationAdditionForm(props: Props) {
                     ))}
                 </select>
             </label>
-            <label htmlFor='end-date-select'>
-                End Date
+            <label className='form-field' htmlFor='end-date-select'>
+                <span className='form-field__label'>End date</span>
                 <select id='end-date-select'
                         disabled={dateList.length === 0 || startDate === ''}
                         value={endDate}
@@ -97,9 +98,11 @@ function LocationAdditionForm(props: Props) {
                     ))}
                 </select>
             </label>
-            <button type='submit'>Add Location</button>
-            <button type='button' onClick={handleReset}>Clear Form</button>
-            {error && (<p style={{color: 'orangered'}}>{error}</p>)}
+            <div className='form__actions'>
+                <button className='button button--primary' type='submit'>Add location</button>
+                <button className='button button--secondary' type='button' onClick={handleReset}>Clear form</button>
+            </div>
+            {error && (<p className='form__error' role='alert'>{error}</p>)}
         </form>
     )
 }

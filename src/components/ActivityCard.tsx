@@ -41,12 +41,14 @@ function ActivityCard(props: Props) {
     }
 
     return (
-        <article style={{border: '1px solid yellow', display: 'inline-block'}}>
-            <h5 style={{margin: '0'}}>{props.activity.name}</h5>
+        <article className='activity-card'>
+            <h5 className='activity-card__title'>{props.activity.name}</h5>
             {props.activity.time && <p>{props.activity.time}</p>}
-            <button type='button' onClick={() => dispatch(removeActivity(props.activity.id))}>X</button>
-            <button type='button' disabled={!props.allowPrevDate} onClick={handlePreviousDate}>^</button>
-            <button type='button' disabled={!props.allowNextDate} onClick={handleNextDate}>v</button>
+            <div className='activity-card__actions'>
+                <button className='button button--quiet' type='button' aria-label={`Remove ${props.activity.name}`} onClick={() => dispatch(removeActivity(props.activity.id))}>Remove</button>
+                <button className='button button--quiet' type='button' aria-label={`Move ${props.activity.name} to the previous date`} disabled={!props.allowPrevDate} onClick={handlePreviousDate}>Earlier</button>
+                <button className='button button--quiet' type='button' aria-label={`Move ${props.activity.name} to the next date`} disabled={!props.allowNextDate} onClick={handleNextDate}>Later</button>
+            </div>
         </article>
     )
 }
