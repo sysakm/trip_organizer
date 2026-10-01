@@ -47,12 +47,12 @@ function validateISODateString(date: string) {
     const day = Number(dayStr)
     if (Number.isNaN(year) || Number.isNaN(month) || Number.isNaN(day)) return false
     if (year <= 0 || month <= 0 || day <= 0) return false
-    const parsedDate = new Date(year, month - 1, day)
+    const parsedDate = new Date(Date.UTC(year, month - 1, day))
 
     return (
-        parsedDate.getFullYear() === year &&
-        parsedDate.getMonth() === month - 1 &&
-        parsedDate.getDate() === day
+        parsedDate.getUTCFullYear() === year &&
+        parsedDate.getUTCMonth() === month - 1 &&
+        parsedDate.getUTCDate() === day
     )
 }
 

@@ -52,6 +52,7 @@ function ActivityAdditionForm(props: Props) {
             setDate('')
             setSpecifyTime(false)
             setTime('')
+            setError('')
         }
     }
 
